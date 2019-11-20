@@ -1,5 +1,12 @@
-<h1>Movies/index.html</h1>
+{% extends 'base.html' %}
 
-{% for m in movie %}
-{{ m }}
-{% endfor %}
+{% block content %}
+
+  <h1>Movies</h1>
+  {% for movie in movies %}
+    <p>{{ movie.pk }}</p>
+    <p>{{ movie.title }}</p>
+    <a href="{{ movie.get_absolute_url }}">[DETAIL]</a>
+    <hr>
+  {% endfor %}
+{% endblock %}
