@@ -12,8 +12,7 @@ class MovieAdmin(admin.ModelAdmin):
 
 
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ('content',)
-
+    list_display = ('content','score', 'movie','user')
 
 
 admin.site.register(Genre, GenreAdmin)
