@@ -2,7 +2,6 @@ from django.contrib import admin
 from .models import Genre, Movie, Review
 
 # Register your models here.
-
 class GenreAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
