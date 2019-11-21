@@ -16,13 +16,14 @@ def index(request):
 
 def detail(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
-    # reviews = movie.review_set.all()
-    # person = get_object_or_404(settings.AUTH_USER_MODEL, pk=movie.user_id)
+    reviews = movie.review_set.all()
+    person = get_object_or_404(get_user_model(), pk=movie.user_id)
+    review_form = ReviewForm()
     context = {
         'movie': movie,
-        # 'review_form': review_form,
-        # 'reviews': reviews,
-        # 'person': person,
+        'review_form': review_form,
+        'reviews': reviews,
+        'person': person,
     }
     return render(request, 'movies/detail.html', context)
 
