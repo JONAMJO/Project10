@@ -22,10 +22,14 @@ class Movie(models.Model):
 
     class Meta:
         ordering = ('-pk',)
+<<<<<<< HEAD
+    
+=======
 
+>>>>>>> b19b50ae059c66bfe98489dc00ce2dcdb005e2e6
     def __str__(self):
         return self.title
-
+    
     def get_absolute_url(self):
         return reverse("movies:detail", kwargs={"movie_pk": self.pk})
 
