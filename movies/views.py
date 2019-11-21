@@ -6,34 +6,36 @@ from .models import Movie, Genre, Review
 from .forms import ReviewForm
 
 # Create your views here.
+@require_GET
 def index(request):
     movies = Movie.objects.all()
     context = {'movies': movies}
     return render(request, 'movies/index.html', context)
 
 
+@require_GET
 def detail(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
-    reviews = movie.review_set.all()
-    person = get_object_or_404(get_user_model(), pk=movie.user_id)
     review_form = ReviewForm()
+    # person = get_object_or_404(get_user_model(), pk=movie.user_id)
     reviews = movie.reviews.all()
     context = {'movie': movie, 'review_form': review_form, 'reviews': reviews}
     return render(request, 'movies/detail.html', context)
 
 
-@ login_required
-def reviews_create(request, movie_pk):
-    if request.method == 'POST':
-        review_form = ReviewForm(request.POST)
-        if review_form.is_valid():
-            review = review_form.save(commit=False)
+@require_POST
+def review_create(request, movie_pk):
+    if request.user.is_authenticated:
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
             review.movie_id = movie_pk
-            review.user_id = request.user.pk
+            review.user = request.user
             review.save()
-    return redirect('movies:detail', movie_pk)
+            return redirect('movies:detail', movie_pk)
+    return redirect('movies:index')
 
-  
+
 @require_POST
 def review_delete(request, movie_pk, review_pk):
     if request.user.is_authenticated:
