@@ -290,8 +290,6 @@ def like(request, movie_pk):
   4. 팀원과의 원만한 소통을 통해 프로젝트를 완성할 수 있었다.
   ```
 <hr>
-
-
 - 조현호:
 
   ```
@@ -300,7 +298,27 @@ def like(request, movie_pk):
 
   
 
-### :eight:: **결과 **
+### :eight:  **결과 **
 
+1. Movies index 페이지
 
+   ![캡처1](https://user-images.githubusercontent.com/52685280/69308345-de13d900-0c6e-11ea-82eb-ec194f7e73f9.PNG)
+
+   <hr>
+
+2. Movies detail 페이지
+
+   ![캡처2](https://user-images.githubusercontent.com/52685280/69308378-dfdd9c80-0c6e-11ea-8171-340529f25379.PNG)
+
+   <hr>
+
+3. Accounts index 페이지
+
+   ![캡처3](https://user-images.githubusercontent.com/52685280/69308404-e23ff680-0c6e-11ea-82df-3d2e0d1d22c2.PNG)
+
+   <hr>
+
+4. Accounts profile 페이지
+
+   ![캡처4](https://user-images.githubusercontent.com/52685280/69308427-e409ba00-0c6e-11ea-9012-239ff8a446f7.PNG)
 
