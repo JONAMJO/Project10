@@ -7,7 +7,6 @@ from .forms import CustomUserCreationForm
 from django.contrib.auth import get_user_model
 from .models import User
 
-# User = get_user_model()
 
 # Create your views here.
 def index(request):
@@ -51,3 +50,4 @@ def profile(request, user_pk):
     user = get_object_or_404(User, pk=user_pk)
     context = {'user': user}
     return render(request, 'accounts/profile.html', context)
+
