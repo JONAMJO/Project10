@@ -1,5 +1,9 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Movie
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_GET, require_POST
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from .models import Movie, Genre, Review
+from .forms import ReviewForm
 
 # Create your views here.
 
@@ -20,3 +24,4 @@ def detail(request, movie_pk):
         'person': person,
     }
     return render(request, 'movies/detail.html', context)
+
