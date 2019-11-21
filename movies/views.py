@@ -6,16 +6,17 @@ from .models import Movie, Genre, Review
 from .forms import ReviewForm
 
 # Create your views here.
-@require_GET
+
 def index(request):
     movies = Movie.objects.all()
     context = {'movies': movies}
     return render(request, 'movies/index.html', context)
 
 
-@require_GET
 def detail(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
+    reviews = movie.review_set.all()
+    person = get_object_or_404(get_user_model(), pk=movie.user_id)
     review_form = ReviewForm()
     reviews = movie.reviews.all()
     context = {'movie': movie, 'review_form': review_form, 'reviews': reviews}

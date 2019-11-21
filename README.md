@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## PJT10 - Django (Pair Programming)
 
 ### :one: 목표
@@ -53,10 +54,5 @@
 
 
 - 조현호 : 
-
-
-
-
-
 
 
