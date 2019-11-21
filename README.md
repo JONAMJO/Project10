@@ -26,7 +26,13 @@
 
 
 
-### :four: `accounts` App
+### :four:  업무분담
+
+- 남승현 : 데이터베이스 모델링, movies App
+- 조현호 : movies/detail, accounts App
+  
+
+### :five:`accounts` App
 
 ```python
 # admin.py
@@ -131,9 +137,7 @@ def profile(request, user_pk):
 
 
 
-### :five: `movies` App
-
-### 
+### :six: `movies` App
 
 ```python
 # admin.py
@@ -272,15 +276,6 @@ def like(request, movie_pk):
     return redirect('movies:detail', movie_pk)
 
 ```
-
-
-
-
-### :six: 업무분담
-
-- 남승현 : 데이터베이스 모델링, movies App
-
-- 조현호 : movies/detail, accounts App
 
 
 
