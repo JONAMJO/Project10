@@ -2,6 +2,16 @@ from django.contrib import admin
 from .models import Genre, Movie, Review
 
 # Register your models here.
-admin.site.register(Genre)
-admin.site.register(Movie)
-admin.site.register(Review)
+class GenreAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+admin.site.register(Genre, GenreAdmin)
+
+
+class MovieAdmin(admin.ModelAdmin):
+    list_display = ('title',)
+admin.site.register(Movie, MovieAdmin)
+
+
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('content',)
+admin.site.register(Review, ReviewAdmin)

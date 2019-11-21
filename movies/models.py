@@ -12,7 +12,7 @@ class Movie(models.Model):
     poster_url = models.CharField(max_length=140)
     description = models.TextField()
     genres = models.ManyToManyField(Genre, related_name='movies')
-    liked_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='liked_movies')
+    liked_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='liked_movies', blank=True)
 
 
 class Review(models.Model):

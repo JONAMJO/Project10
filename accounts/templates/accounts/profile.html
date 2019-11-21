@@ -1,11 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  {% comment %}
-  1. (필수) 해당 유저가 작성한 평점 정보가 모두 출력됩니다.
-  2. (필수) 해당 유저가 좋아하는 영화 정보가 모두 출력됩니다.
-  3. (필수) 해당 유저를 팔로우 한 사람의 수, 팔로잉 한 사람의 수가 출력됩니다. 
-  {% endcomment %}
   <h2>{{ user.username }}</h2>
   {% with followers=user.followers.all followings=user.followings.all %}
     <p class="lead">
@@ -13,18 +8,22 @@
     </p>
   {% endwith %}
 
+  {% if user.review_set.all %}
+    {% for review in user.review_set.all %}
+      <p>평점: {{ review.score }}</p>
+      <p>내용: {{ review.content }}</p>
+      <hr>
+    {% endfor %}
+  {% else %}
+    <p>작성한 영화리뷰가 없습니다.</p>
+  {% endif %}
+  <br>
+
   {% if user.liked_movies.all %}
     {% for movie in user.liked_movies.all %}
     <hr>
       <p>제목: {{ movie.title }}</p>
       <p>영화설명: {{ movie.description }}</p>
-      {% comment %} <p>영화평점: {{ movie.score }}</p> {% endcomment %}
     {% endfor %}
-  {% else %}
-    <span>남긴 영화리뷰가 없습니다.</span>
   {% endif %}
-  <br>
-
-
-
 {% endblock %}

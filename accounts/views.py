@@ -7,8 +7,6 @@ from .forms import CustomUserCreationForm
 from django.contrib.auth import get_user_model
 from .models import User
 
-# User = get_user_model()
-
 # Create your views here.
 def index(request):
     users = User.objects.all()
@@ -20,7 +18,8 @@ def signup(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            auth_login(request, user)
         return redirect('movies:index')
     else:
         form = CustomUserCreationForm()
@@ -33,7 +32,7 @@ def login(request):
         form = AuthenticationForm(request, request.POST)
         if form.is_valid():
             auth_login(request, form.get_user())
-        return redirect('movies:index')
+        return redirect(request.GET.get('next') or 'movies:index')
     else:
         form = AuthenticationForm()
     context = {'form': form}
@@ -48,6 +47,6 @@ def logout(request):
 
 @login_required
 def profile(request, user_pk):
-    user = get_object_or_404(User, pk=user_pk)
+    user = get_object_or_404(get_user_model(), pk=user_pk)
     context = {'user': user}
     return render(request, 'accounts/profile.html', context)

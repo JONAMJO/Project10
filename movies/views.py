@@ -5,7 +5,6 @@ from django.http import HttpResponse
 from .models import Movie, Genre, Review
 from .forms import ReviewForm
 
-
 # Create your views here.
 @require_GET
 def index(request):
@@ -19,11 +18,7 @@ def detail(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     review_form = ReviewForm()
     reviews = movie.reviews.all()
-    context = {
-        'movie': movie,
-        'review_form': review_form,
-        'reviews': reviews
-    }
+    context = {'movie': movie, 'review_form': review_form, 'reviews': reviews}
     return render(request, 'movies/detail.html', context)
 
 
@@ -40,7 +35,6 @@ def review_create(request, movie_pk):
     return redirect('movies:index')
 
 
-
 @require_POST
 def review_delete(request, movie_pk, review_pk):
     if request.user.is_authenticated:
@@ -52,4 +46,10 @@ def review_delete(request, movie_pk, review_pk):
 
 
 def like(request, movie_pk):
-    pass
+    user = request.user
+    movie = get_object_or_404(Movie, pk=movie_pk)
+    if user in movie.liked_users.all():
+        user.liked_movies.remove(movie)
+    else:
+        user.liked_movies.add(movie)
+    return redirect('movies:detail', movie_pk)
