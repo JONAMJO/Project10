@@ -47,6 +47,6 @@ def logout(request):
 
 @login_required
 def profile(request, user_pk):
-    user = get_object_or_404(get_user_model(), pk=user_pk)
-    context = {'user': user}
+    profile_user = get_object_or_404(User, pk=user_pk)
+    context = {'profile_user': profile_user}
     return render(request, 'accounts/profile.html', context)
