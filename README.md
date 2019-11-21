@@ -298,7 +298,7 @@ def like(request, movie_pk):
 
   
 
-### :eight:  **결과 **
+### :eight: 결과
 
 1. Movies index 페이지
 
