@@ -1,79 +1,55 @@
-import hashlib
-from django.contrib.auth import get_user_model
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_GET, require_POST
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
-from django.http import Http404, HttpResponse
-from django.views.decorators.http import require_POST
-# from .models import Article, Comment, Hashtag
-# from .forms import ArticleForm, CommentForm
+from django.http import HttpResponse
+from .models import Movie, Genre, Review
+from .forms import ReviewForm
+
 
 # Create your views here.
+@require_GET
 def index(request):
-    visits_num = request.session.get('visits_num', 0)
-    request.session['visits_num'] = visits_num + 1
-    request.session.modified = True
-    articles = Article.objects.all()
-    context = {'articles': articles, 'visits_num': visits_num,}
-    return render(request, 'articles/index.html', context)
+    movies = Movie.objects.all()
+    context = {'movies': movies}
+    return render(request, 'movies/index.html', context)
 
 
-def detail(request, article_pk):
-    article = get_object_or_404(Article, pk=article_pk)
-    comments = article.comment_set.all()
-    person = get_object_or_404(get_user_model(), pk=article.user_id)
-    comment_form = CommentForm()
-    context = {'article': article, 'comment_form': comment_form, 'comments': comments, 'person': person,}
-    return render(request, 'articles/detail.html', context)
-
-
-@require_POST
-def comments_create(request, article_pk):
-    if request.user.is_authenticated:
-        comment_form = CommentForm(request.POST)
-        if comment_form.is_valid():
-            comment = comment_form.save(commit=False)
-            comment.article_id = article_pk
-            comment.user = request.user
-            comment.save()
-    return redirect('articles:detail', article_pk)
+@require_GET
+def detail(request, movie_pk):
+    movie = get_object_or_404(Movie, pk=movie_pk)
+    review_form = ReviewForm()
+    reviews = movie.reviews.all()
+    context = {
+        'movie': movie,
+        'review_form': review_form,
+        'reviews': reviews
+    }
+    return render(request, 'movies/detail.html', context)
 
 
 @require_POST
-def comments_delete(request, article_pk, comment_pk):
+def review_create(request, movie_pk):
     if request.user.is_authenticated:
-        comment = get_object_or_404(Comment, pk=comment_pk)
-        if request.user == comment.user:
-            comment.delete()
-        return redirect('articles:detail', article_pk)
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.movie_id = movie_pk
+            review.user = request.user
+            review.save()
+            return redirect('movies:detail', movie_pk)
+    return redirect('movies:index')
+
+
+
+@require_POST
+def review_delete(request, movie_pk, review_pk):
+    if request.user.is_authenticated:
+        review = get_object_or_404(Review, pk=review_pk)
+        if review.user == request.user:
+            review.delete()
+        return redirect('movies:detail', movie_pk)
     return HttpResponse('You are Unauthorized', status=401)
 
 
-@login_required
-def like(request, article_pk):
-    article = get_object_or_404(Article, pk=article_pk)
-
-    if article.like_users.filter(pk=request.user.pk).exists():
-        article.like_users.remove(request.user)
-    else:
-        article.like_users.add(request.user)
-
-    return redirect('articles:index')
-
-
-@login_required
-def follow(request, article_pk, user_pk):
-    person = get_object_or_404(get_user_model(), pk=user_pk)
-    user = request.user
-    if person != user:
-        if person.followers.filter(pk=user.pk).exists():
-            person.followers.remove(user)
-        else:
-            person.followers.add(user)
-    return redirect('articles:detail', article_pk)
-
-
-def hashtag(request, hash_pk):
-    hashtag = get_object_or_404(Hashtag, pk=hash_pk)
-    articles = hashtag.article_set.order_by('-pk')
-    context = {'hashtag': hashtag, 'articles': articles,}
-    return render(request, 'articles/hashtag.html', context)
+def like(request, movie_pk):
+    pass

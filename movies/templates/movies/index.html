@@ -1,14 +1,13 @@
-{% extends 'articles/base.html' %}
+{% extends 'base.html' %}
+
 {% block content %}
-  <h1>Articles</h1>
-  <p><b>당신의 방문 횟수 : {{ visits_num }}{% if visits_num == 1 %} time{% else %} times{% endif %}</b></p>
-  {% if user.is_authenticated %}
-    <a href="{% url 'articles:create' %}">[NEW]</a>
-  {% else %}
-    <a href="{% url 'accounts:login' %}">[새 글을 작성하려면 로그인하세요]</a>
-  {% endif %}
-  <hr>
-  {% for article in articles %}
-    {% include 'articles/_article.html' %}
+  <h2>Movie List</h2>
+  {% for movie in movies %}
+    <div>
+      <h3>{{ movie.pk }}. {{ movie.title }}</h3>
+      <a href="{% url 'movies:detail' movie.pk %}">
+        <img src="{{ movie.poster_url }}" alt="" width="200" height="300">
+      </a>
+    </div>
   {% endfor %}
 {% endblock %}
