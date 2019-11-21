@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
+{% load bootstrap4 %}
 
 {% block content %}
   <h1>Movies</h1>
   {% for movie in movies %}
-    <div>
-      <h5>{{ movie.pk }}. {{ movie.title }}</h5>
-      <a href="{% url 'movies:detail' movie.pk %}">
-        <img src="{{ movie.poster_url }}" alt="" width="200" height="300">
+    <div class="card my-2 col-4 " style="width: 18rem;">
+      <a href="{% url 'movies:detail' movie.pk %}"><img src="{{ movie.poster_url }}" class="card-img-top" alt="movie_img">
       </a>
+      <div class="card-body">
+        <h5 class="card-title">{{ movie.title }}</h5>
+      </div>
     </div>
   {% endfor %}
 {% endblock %}
