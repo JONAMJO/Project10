@@ -1,44 +1,30 @@
-{% extends 'articles/base.html' %}
-{% load bootstrap4 %}
+{% extends 'base.html' %}
 
 {% block content %}
-  <h1 class="text-center">{{ person.username }}'s Profile</h1>
-  <hr>
-  
-  <h3 class="text-center">{{ person.username }}이 작성한 글</h3>
-  <div class="row">
-  {% with articles=person.article_set.all %}
-    {% for article in articles %}
-      <div class="col-4 my-2">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">{{ article.content }}</h5>
-            <p class="card-text">{{ article.like_users.count }}명이 좋아하는 글</p>
-            <p class="card-text">{{ article.comment_set.count }}개의 댓글</p>
-            <a href="{% url 'articles:detail' article.pk %}" class="btn btn-primary">게시글 보기</a>
-          </div>
-        </div>
-      </div>
-    {% endfor %}
+  {% comment %}
+  1. (필수) 해당 유저가 작성한 평점 정보가 모두 출력됩니다.
+  2. (필수) 해당 유저가 좋아하는 영화 정보가 모두 출력됩니다.
+  3. (필수) 해당 유저를 팔로우 한 사람의 수, 팔로잉 한 사람의 수가 출력됩니다. 
+  {% endcomment %}
+  <h2>{{ user.username }}</h2>
+  {% with followers=user.followers.all followings=user.followings.all %}
+    <p class="lead">
+      팔로워 : {{ followers|length }} / 팔로잉 : {{ followings|length }}
+    </p>
   {% endwith %}
-  </div>
-  <hr>
-  
-  <h3 class="text-center">{{ person.username }}이 작성한 댓글</h3>
-  <div class="row">
-  {% with comments=person.comment_set.all %}
-    {% for comment in comments %}
-      <div class="col-12 my-2">
-        <div class="card">
-          <div class="card-body">
-            <blockquote class="blockquote mb-0">
-              <p>{{ comment.content }}</p>
-              <footer class="blockquote-footer">{{ comment.created_at|date:"SHORT_DATE_FORMAT" }}</footer>
-            </blockquote>
-          </div>
-        </div>
-      </div>
+
+  {% if user.liked_movies.all %}
+    {% for movie in user.liked_movies.all %}
+    <hr>
+      <p>제목: {{ movie.title }}</p>
+      <p>영화설명: {{ movie.description }}</p>
+      {% comment %} <p>영화평점: {{ movie.score }}</p> {% endcomment %}
     {% endfor %}
-  {% endwith %}
-  </div>
+  {% else %}
+    <span>남긴 영화리뷰가 없습니다.</span>
+  {% endif %}
+  <br>
+
+
+
 {% endblock %}
