@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ## PJT10 - Django (Pair Programming)
 
 ### :one: 목표
@@ -41,9 +40,9 @@
 
 ### :six: 업무분담
 
-- 남승현 : movies App
+- 남승현 : 데이터베이스 모델링, movies App
 
-- 조현호 : accounts App
+- 조현호 : movies/detail, accounts App
 
 
 
@@ -54,5 +53,6 @@
 
 
 - 조현호 : 
+
 
 
