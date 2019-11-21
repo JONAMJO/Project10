@@ -1,48 +1,21 @@
-<<<<<<< HEAD
-<h1>DETAIL</h1>
-<hr>
-<p>{{ movie.pk }}</p>
-<p>{{ movie.title }}</p>
-<p> <img src="{{ movie.poster_url }} " alt="img" width='10%'></p>
-<p>{{ movie.description }}</p>
-<p>{{ movie.genre }}</p>
-<p>{{ movie.like_users }}</p>
-
-<hr>
-<hr>
-
-
-{% for review in reviews %}
-  <div>
-    댓글 {{ forloop.counter }} : {{ review.content }} - {{ review.score }}
-  </div>
-  {% if user.is_authenticated %}
-    <form action="{% url 'movies:reviews_delete' movie.pk review.pk %}" method="POST">
-      {% csrf_token %}
-      <button type="submit" class="btn btn-danger">댓글 삭제</button>
-    </form>
-  {% endif %}
-
-  <hr>
-{% endfor %}
-=======
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>{{ movie.title }}</h2>
-  <p>누적 관객 수 : {{ movie.audience }}</p>
+  <h2>{{ movie.title }}</h2><hr>
+  <p>누적 관객 수 : {{ movie.audience }} 명</p>
   <p>장르 : {% for genre in movie.genres.all %}<span>{{ genre.name }}</span>{% endfor %}</p>
-  <img src="{{ movie.poster_url }}" width="300" height="400"><br>
+  <img src="{{ movie.poster_url }}" width="300" height="450"><br>
+  <br>
+  <p>{{ movie.description }}</p>
+  <br>
   <a href="{% url 'movies:like' movie.pk %}">
     {% if user in movie.liked_users.all %}
       <i class="fas fa-heart fa-lg" style="color: red"></i>
     {% else %}
-      <i class="far fa-heart fa-lg" style="color: red"></i>
+      <i class="far fa-heart fa-lg" style="color: black"></i>
     {% endif %}
   </a>
-  <span>{{ movie.liked_users.all | length }}명이 이 영화를 좋아합니다.</span>
-  <hr>
-  {{ movie.description }}
+  <p>{{ movie.liked_users.all | length }}명이 이 영화를 좋아합니다.</p>
   <hr>
 
   <h3>평가</h3>
@@ -59,7 +32,6 @@
       </li>
     {% endfor %}
   </ul>
->>>>>>> b19b50ae059c66bfe98489dc00ce2dcdb005e2e6
 
   {% if user.is_authenticated %}
     <form action="{% url 'movies:review_create' movie.pk %}" method="post">
@@ -68,23 +40,6 @@
       <button type="submit">작성하기</button>
     </form>
   {% endif %}
-
-<<<<<<< HEAD
-{% if user.is_authenticated %}
   <hr>
-  <h3>댓글 작성</h3>
-
-  <form action="{% url 'movies:reviews_create' movie.pk %}" method="POST">
-    {% csrf_token %}
-    {{review_form}}
-    <button type="submit" class="btn btn-primary">댓글 작성</button>
-  </form>
-{% endif %}
-
-<a href="{% url 'movies:index' %}">[back]</a>
-=======
-  <br>
-  <br>
   <a href="{% url 'movies:index' %}">Back</a>
 {% endblock %}
->>>>>>> b19b50ae059c66bfe98489dc00ce2dcdb005e2e6

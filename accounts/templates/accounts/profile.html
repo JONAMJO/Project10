@@ -1,29 +1,35 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>{{ user.username }}</h2>
-  {% with followers=user.followers.all followings=user.followings.all %}
+  <h2>{{ profile_user.username }}</h2>
+  {% with followers=profile_user.followers.all followings=profile_user.followings.all %}
     <p class="lead">
       팔로워 : {{ followers|length }} / 팔로잉 : {{ followings|length }}
     </p>
+    <hr>
   {% endwith %}
 
-  {% if user.review_set.all %}
-    {% for review in user.review_set.all %}
+  <h5>작성한 평점 정보</h5><br>
+  {% if profile_user.reviews.all %}
+    {% for review in profile_user.reviews.all %}
       <p>평점: {{ review.score }}</p>
       <p>내용: {{ review.content }}</p>
       <hr>
     {% endfor %}
   {% else %}
     <p>작성한 영화리뷰가 없습니다.</p>
-  {% endif %}
-  <br>
-
-  {% if user.liked_movies.all %}
-    {% for movie in user.liked_movies.all %}
     <hr>
+  {% endif %}
+
+  <h5>좋아요한 영화 정보</h5><br>
+  {% if profile_user.liked_movies.all %}
+    {% for movie in profile_user.liked_movies.all %}
       <p>제목: {{ movie.title }}</p>
       <p>영화설명: {{ movie.description }}</p>
+      <hr>
     {% endfor %}
+  {% else %}
+    <p>좋아요한 영화가 없습니다.</p>
+    <hr>
   {% endif %}
 {% endblock %}
